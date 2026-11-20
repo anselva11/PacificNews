@@ -16,7 +16,6 @@ import ResearchPage from './pages/ResearchPage';
 import ResearchDetailPage from './pages/ResearchDetailPage';
 import CalendarPage from './pages/CalendarPage';
 import NewsDetailPage from './pages/NewsDetailPage';
-import AdminDashboard from './pages/AdminDashboard';
 
 export default function App() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -121,9 +120,6 @@ export default function App() {
 
           {/* Individual News Article Reader */}
           <Route path="/news/:id" element={<NewsDetailPage />} />
-
-          {/* CMS Admin Console */}
-          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </main>
 

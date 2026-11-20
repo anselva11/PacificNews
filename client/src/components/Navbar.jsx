@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, Bookmark, ShieldCheck, Menu, X, Globe } from 'lucide-react';
+import { Search, Bookmark, Menu, X, Globe } from 'lucide-react';
 import { useMarket } from '../context/MarketContext';
 import { useWatchlist } from '../context/WatchlistContext';
 import logoHolding from '../assets/logo holding.png';
 
 export default function Navbar({ onOpenSearch }) {
-  const { marketTimes, wsConnected, bloombergStatus } = useMarket();
+  const { marketTimes } = useMarket();
   const { watchlistTickers, setIsOpen } = useWatchlist();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -59,17 +59,6 @@ export default function Navbar({ onOpenSearch }) {
             <span className="text-[#800D1B] font-bold mr-1">UTC</span>
             <span className="text-gray-900 font-bold">{marketTimes.utc || '17:00:00'}</span>
           </span>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded font-mono font-bold">
-            <span className={`w-2 h-2 rounded-full mr-1.5 ${wsConnected ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-            <span>{wsConnected ? 'LIVE FEED CONNECTED' : 'RECONNECTING'}</span>
-          </div>
-
-          <div className="hidden md:flex items-center text-[10px] bg-gray-100 text-gray-800 px-2 py-0.5 rounded border border-gray-300 font-mono font-bold">
-            <span>{bloombergStatus?.connected ? 'BLOOMBERG DL: VERIFIED' : 'BLOOMBERG SAPI: STANDBY'}</span>
-          </div>
         </div>
       </div>
 
@@ -128,16 +117,6 @@ export default function Navbar({ onOpenSearch }) {
               </span>
             )}
           </button>
-
-          {/* Admin CMS Portal */}
-          <Link
-            to="/admin"
-            className="flex items-center space-x-1 px-3 py-1.5 rounded bg-[#071426] hover:bg-[#800D1B] text-white text-xs font-bold transition shadow-sm"
-            title="Institutional CMS & Terminal Admin"
-          >
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span className="hidden md:inline">Terminal CMS</span>
-          </Link>
 
           {/* Mobile Menu Hamburger */}
           <button

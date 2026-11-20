@@ -14,7 +14,7 @@ export default function HomePage() {
     async function loadContent() {
       try {
         const [newsRes, resRes] = await Promise.all([
-          fetchNews({ limit: 15 }),
+          fetchNews({ limit: 50 }),
           fetchResearch()
         ]);
         if (newsRes.data) setArticles(newsRes.data);
@@ -326,6 +326,67 @@ export default function HomePage() {
           </div>
         </div>
 
+      </div>
+
+      {/* 2026 GLOBAL FINANCIAL NEWS STREAM & ARCHIVE (50 VERIFIED ARTICLES) */}
+      <div className="mt-12 pt-8 border-t-2 border-gray-900">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 pb-2 border-b border-gray-200">
+          <div>
+            <div className="text-[10px] font-mono font-bold text-[#800D1B] uppercase tracking-wider">
+              PACIFIC CAPITAL WIRE • 2026 INTELLIGENCE STREAM
+            </div>
+            <h2 className="font-serif text-2xl font-black text-gray-900 uppercase tracking-tight mt-0.5">
+              Latest Market Intelligence & Institutional Reports
+            </h2>
+          </div>
+          <span className="text-xs font-mono text-gray-700 mt-2 sm:mt-0 bg-gray-100 border border-gray-300 px-2.5 py-1 rounded font-bold">
+            50 VERIFIED 2026 ARTICLES ACTIVE
+          </span>
+        </div>
+
+        {/* Multi-column grid for extensive news feed */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {articles.slice(12).map((item) => (
+            <article
+              key={item.id}
+              className="p-4 rounded-lg bg-white border border-gray-200 hover:border-gray-400 shadow-2xs transition flex flex-col justify-between group"
+            >
+              <div>
+                <div className="relative overflow-hidden rounded mb-3 aspect-video bg-gray-100">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.headline}
+                    className="w-full h-full object-cover group-hover:scale-103 transition duration-300"
+                    loading="lazy"
+                  />
+                  <span className="absolute bottom-1.5 left-1.5 bg-[#071426]/90 backdrop-blur-xs text-white text-[9px] font-mono px-1.5 py-0.5 rounded uppercase font-bold">
+                    {item.category}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-[10px] font-mono text-gray-500 mb-1.5">
+                  <span>{new Date(item.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                  <span>{item.readTime}</span>
+                </div>
+                <Link
+                  to={`/news/${item.id}`}
+                  className="font-serif text-sm font-bold text-gray-900 group-hover:text-[#800D1B] transition-colors leading-snug line-clamp-2"
+                >
+                  {item.headline}
+                </Link>
+                <p className="text-xs text-gray-600 mt-2 line-clamp-3 leading-relaxed">
+                  {item.summary}
+                </p>
+              </div>
+
+              <div className="pt-3 mt-3 border-t border-gray-100 flex items-center justify-between text-[10px] font-mono text-gray-500">
+                <span className="truncate max-w-[180px]">{item.author}</span>
+                <span className="text-[#800D1B] font-bold group-hover:underline flex items-center">
+                  Read Intel →
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </div>
   );

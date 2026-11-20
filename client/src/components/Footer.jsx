@@ -51,7 +51,6 @@ export default function Footer() {
               <li><Link to="/research" className="text-gray-600 hover:text-[#800D1B] transition font-medium">Macroeconomic Outlook (2026-2030)</Link></li>
               <li><Link to="/calendar" className="text-gray-600 hover:text-[#800D1B] transition font-medium">Global Economic Calendar</Link></li>
               <li><Link to="/companies" className="text-gray-600 hover:text-[#800D1B] transition font-medium">Global Company Profiles</Link></li>
-              <li><Link to="/admin" className="text-gray-600 hover:text-[#800D1B] transition font-medium">Terminal CMS & Admin Console</Link></li>
             </ul>
           </div>
 
