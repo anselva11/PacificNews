@@ -34,14 +34,6 @@ export default function TickerBar() {
   return (
     <div className="bg-white text-gray-900 border-b border-gray-200 overflow-hidden relative select-none shadow-xs">
       <div className="flex items-center">
-        {/* Left Live Badge */}
-        <div className="hidden md:flex items-center px-3 py-2 bg-gray-100 border-r border-gray-200 z-10 whitespace-nowrap">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 mr-2 animate-ping" />
-          <span className="text-[10px] font-mono font-bold tracking-wider text-gray-900 uppercase">
-            MARKETS LIVE
-          </span>
-        </div>
-
         {/* Scrolling Ticker Strip */}
         <div className="flex overflow-x-auto no-scrollbar py-1.5 space-x-6 px-4 animate-ticker bg-white">
           {/* Double array for infinite loop effect */}
