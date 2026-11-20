@@ -1,9 +1,14 @@
 import Parser from 'rss-parser';
 import axios from 'axios';
+import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 import { initialArticles } from '../data/initialData.js';
 
 const rssParser = new Parser({
+  headers: {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    'Accept': 'application/rss+xml, application/xml, text/xml;q=0.9, */*;q=0.8'
+  },
   customFields: {
     item: [
       ['media:content', 'media'],
@@ -63,22 +68,34 @@ class FinancialNewsEngine {
   async fetchLiveFinancialWires() {
     const feeds = [
       {
-        url: 'https://www.sec.gov/news/pressreleases.rss',
-        source: 'U.S. Securities & Exchange Commission (SEC EDGAR)',
+        url: 'https://www.cnbc.com/id/10000664/device/rss/rss.html',
+        source: 'CNBC Markets',
         category: 'Stock Markets',
-        defaultImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80'
+        defaultImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80'
       },
       {
-        url: 'https://www.federalreserve.gov/feeds/press_monetary.xml',
-        source: 'Federal Reserve Board',
-        category: 'Monetary Policy',
+        url: 'https://www.cnbc.com/id/20910258/device/rss/rss.html',
+        source: 'CNBC Economy',
+        category: 'Global Economy',
         defaultImage: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=80'
       },
       {
         url: 'https://feeds.content.dowjones.io/public/rss/mw_topstories',
-        source: 'MarketWatch Financial Network',
-        category: 'Global Economy',
-        defaultImage: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1200&q=80'
+        source: 'MarketWatch Top Stories',
+        category: 'Corporate Earnings',
+        defaultImage: 'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=1200&q=80'
+      },
+      {
+        url: 'https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines',
+        source: 'MarketWatch Financial Wire',
+        category: 'Central Banks',
+        defaultImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80'
+      },
+      {
+        url: 'https://www.coindesk.com/arc/outboundfeeds/rss/',
+        source: 'CoinDesk Institutional',
+        category: 'Crypto',
+        defaultImage: 'https://images.unsplash.com/photo-1621416894569-0f39ed31d247?auto=format&fit=crop&w=1200&q=80'
       }
     ];
 
@@ -88,7 +105,8 @@ class FinancialNewsEngine {
         if (parsed.items && parsed.items.length > 0) {
           // Ingest up to 5 latest authentic wire items per feed
           for (const item of parsed.items.slice(0, 5)) {
-            const id = 'wire_' + Buffer.from(item.link || item.guid || item.title).toString('base64').substring(0, 16);
+            const hash = crypto.createHash('sha256').update(item.link || item.guid || item.title).digest('hex').substring(0, 12);
+            const id = 'wire_' + hash;
             if (!this.articles.has(id)) {
               // Categorize heuristically based on keywords
               const category = this.categorizeText(item.title + ' ' + (item.contentSnippet || ''), feed.category);
